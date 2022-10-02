@@ -1,3 +1,13 @@
+# Daniel’s PDK template
+
+```bash
+pdk convert --template-url https://github.com/danielparks/pdk-templates
+```
+
+Original README follows.
+
+---
+
 # PDK Templates
 
 The PDK Templates is the default templates repository for use with the [Puppet Development Kit](https://github.com/puppetlabs/pdk), within which we have defined all the templates for the creation and configuration of a module. Look into these directories to find the templates:

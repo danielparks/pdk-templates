@@ -24,12 +24,12 @@ jobs:
     - run: pdk bundle exec puppet strings generate --format markdown
     - name: Confirm REFERENCE.md is up-to-date
       run: git diff --color --exit-code
-<% end %>
+<% end -%>
 <% if @configs['validate-pdk-update'] %>
     - run: pdk update --force
     - name: Confirm PDK update does nothing
       run: git diff --color --exit-code
-<% end %>
+<% end -%>
 
   test-unit:
     name: Unit tests

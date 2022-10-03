@@ -552,8 +552,7 @@ Gemfile:
       - gem: 'voxpupuli-puppet-lint-plugins'
         version: '>= 3.0'
       - gem: 'puppet_litmus'
-        git: 'https://github.com/puppetlabs/puppet_litmus'
-        ref: 'main'
+        version: '>= 0.34.1'
     ':system_tests':
       - gem: 'puppet-module-posix-system-r#{minor_version}'
         version: '~> 1.0'

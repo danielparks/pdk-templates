@@ -606,6 +606,8 @@ spec/spec_helper_acceptance.rb:
 
 release.rb:
   unmanaged: false
+  validate-REFERENCE.md: true
+  validate-pdk-update: true
 test.sh:
   unmanaged: false
 util.sh:

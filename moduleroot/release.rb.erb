@@ -212,6 +212,17 @@ if just_forge_update
 end
 
 run('git', 'add', 'CHANGELOG.md', 'metadata.json')
+<% if @configs['validate-REFERENCE.md'] %>
+puts 'Confirming that REFERENCE.md is up-to-date'
+run('pdk', 'bundle', 'exec', 'puppet', 'strings', 'generate',
+  '--format', 'markdown')
+run('git', 'diff', '--color', '--exit-code')
+<% end -%>
+<% if @configs['validate-pdk-update'] %>
+puts 'Confirming that pdk update does nothing'
+run('pdk', 'update', '--force')
+run('git', 'diff', '--color', '--exit-code')
+<% end -%>
 
 run('pdk', 'validate')
 run('pdk', 'test', 'unit')

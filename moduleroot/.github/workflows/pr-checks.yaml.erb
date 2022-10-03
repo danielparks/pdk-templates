@@ -21,7 +21,7 @@ jobs:
     - run: gem install --no-document --minimal-deps pdk
     - run: pdk validate
 <% if @configs['validate-REFERENCE.md'] %>
-    - run: pdk bundle exec puppet strings generate --format markdown
+    - run: bundle exec puppet strings generate --format markdown
     - name: Confirm REFERENCE.md is up-to-date
       run: git diff --color --exit-code
 <% end -%>
@@ -41,8 +41,7 @@ jobs:
       with:
         ruby-version: "2.7"
         bundler-cache: true
-    - run: gem install --no-document --minimal-deps pdk
-    - run: pdk test unit
+    - run: bundle exec rake spec
 
   test-acceptance:
     name: Acceptance tests

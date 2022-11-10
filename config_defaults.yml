@@ -197,8 +197,8 @@ Rakefile:
     Layout/MultilineHashBraceLayout:
     Layout/MultilineMethodCallBraceLayout:
     Layout/MultilineMethodCallIndentation:
-      Description: 'Awkward and hard to read.'
-      Enabled: false
+      Description: 'aligned is awkward and hard to read.'
+      EnforcedStyle: indented
     Layout/MultilineMethodDefinitionBraceLayout:
     Layout/MultilineOperationIndentation:
     Layout/RescueEnsureAlignment:

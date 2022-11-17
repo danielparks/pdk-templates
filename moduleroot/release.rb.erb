@@ -76,26 +76,30 @@ end
 def extract_changes_for_release!(changelog, version)
   release_notes = []
 
-  enumerator = changelog.to_enum
-  line = enumerator.next
-  until line.match?(%r{\A##[^#]})
-    # Skip everything up to the first level 2 heading
+  begin
+    enumerator = changelog.to_enum
     line = enumerator.next
-  end
+    until line.match?(%r{\A##[^#]})
+      # Skip everything up to the first level 2 heading
+      line = enumerator.next
+    end
 
-  # Should have found "## main branch". Replace it with the proper Release line.
-  line.replace("## Release #{version}\n")
+    # Should have found "## main branch". Replace it with the proper Release line.
+    line.replace("## Release #{version}\n")
 
-  line = enumerator.next
-  while line.match?(%r{\A\s*\z})
-    # Skip blank lines
     line = enumerator.next
-  end
+    while line.match?(%r{\A\s*\z})
+      # Skip blank lines
+      line = enumerator.next
+    end
 
-  # Collect everything up to next "## Release..." line
-  until line.match?(%r{\A##[^#]})
-    release_notes << line
-    line = enumerator.next
+    # Collect everything up to next "## Release..." line
+    until line.match?(%r{\A##[^#]})
+      release_notes << line
+      line = enumerator.next
+    end
+  rescue StopIteration
+    # We ran out of file. Doesn’t matter.
   end
 
   # Trim blank lines off end of release notes

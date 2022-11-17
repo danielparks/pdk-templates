@@ -256,7 +256,10 @@ confirm_no_changes
 
 run('pdk', 'validate')
 run('pdk', 'test', 'unit')
-run('./test.sh', 'init', 'run', 'destroy')
+
+if File.exist?('spec/acceptance')
+  run('./test.sh', 'init', 'run', 'destroy')
+end
 
 run('git', 'commit', '-m', "Release #{version}: #{summary.chomp('.')}.",
   dry_run: dry_run)

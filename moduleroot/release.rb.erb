@@ -85,7 +85,7 @@ def extract_changes_for_release!(changelog, version)
       line = enumerator.next
     end
 
-    # Should have found "## main branch". Replace it with the proper Release line.
+    # Should have found "## main branch". Replace it with "## Release..."
     line.replace("## Release #{version}\n")
 
     line = enumerator.next
@@ -100,7 +100,7 @@ def extract_changes_for_release!(changelog, version)
       line = enumerator.next
     end
   rescue StopIteration
-    # We ran out of file. Doesn’t matter.
+    # We ran out of file; doesn’t matter
   end
 
   # Trim blank lines off end of release notes

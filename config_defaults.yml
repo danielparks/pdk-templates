@@ -1,6 +1,6 @@
 ---
 common:
-  disable_legacy_facts: true
+  disable_legacy_facts: false
   owner: puppetlabs
   honeycomb:
     enabled: true
@@ -580,7 +580,7 @@ Gemfile:
     ':system_tests':
       - gem: 'puppet_litmus'
         version: '< 1.0.0'
-        platforms: 
+        platforms:
           - ruby
           - x64_mingw
       - gem: 'serverspec'

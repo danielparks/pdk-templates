@@ -1,11 +1,6 @@
 ---
 common:
   owner: puppetlabs
-  honeycomb:
-    enabled: true
-    writekey: 7f3c63a70eecc61d635917de46bea4e6
-    dataset: litmus tests
-
 .editorconfig:
   unmanaged: false
 .gitattributes:
@@ -48,36 +43,29 @@ common:
 .pdkignore:
   required: *ignorepaths
   paths:
-    - '/appveyor.yml'
-    - '/.editorconfig'
     - '/.fixtures.yml'
     - '/Gemfile'
     - '/.gitattributes'
     - '/.gitignore'
-    - '/.gitlab-ci.yml'
     - '/.pdkignore'
     - '/.puppet-lint.rc'
     - '/Rakefile'
     - '/rakelib/'
     - '/.rspec'
-    - '/.rubocop.yml'
-    - '/.travis.yml'
+    - '/..yml'
     - '/.yardopts'
     - '/spec/'
     - '/.vscode/'
     - '/.sync.yml'
     - '/.devcontainer/'
+    - /.editorconfig
     - /.github
     - /provision.yaml
     - /release.rb
     - /test.sh
     - /util.sh
-.travis.yml:
-  delete: true
 .yardopts:
   markup: markdown
-appveyor.yml:
-  delete: true
 Rakefile:
   changelog_version_tag_pattern: 'v%s'
   default_disabled_lint_checks:
@@ -540,22 +528,19 @@ Gemfile:
         version: '= 2.6.3'
         condition: "Gem::Requirement.create(['>= 3.2.0', '< 4.0.0']).satisfied_by?(Gem::Version.new(RUBY_VERSION.dup))"
       - gem: 'voxpupuli-puppet-lint-plugins'
-        version: '~> 4.0'
+        version: '~> 5.0'
       - gem: 'facterdb'
         version: '~> 1.18'
       - gem: 'metadata-json-lint'
-        version:
-        - '>= 2.0.2'
-        - '< 4.0.0'
+        version: '~> 3.0'
       - gem: 'puppetlabs_spec_helper'
-        version:
-        - '~> 5.0'
+        version: '~> 6.0'
       - gem: 'rspec-puppet-facts'
         version: '~> 2.0'
       - gem: 'codecov'
         version: '~> 0.2'
       - gem: 'dependency_checker'
-        version: '~> 0.2'
+        version: '~> 1.0.0'
       - gem: 'parallel_tests'
         version: '= 3.12.1'
       - gem: 'pry'
@@ -565,11 +550,11 @@ Gemfile:
       - gem: 'puppet-debugger'
         version: '~> 1.0'
       - gem: 'rubocop'
-        version: '= 1.6.1'
+        version: '= 1.48.1'
       - gem: 'rubocop-performance'
-        version: '= 1.9.1'
+        version: '= 1.16.0'
       - gem: 'rubocop-rspec'
-        version: '= 2.0.1'
+        version: '= 2.19.0'
       - gem: 'rb-readline'
         version: '= 0.5.5'
         platforms:
@@ -578,18 +563,13 @@ Gemfile:
           - x64_mingw
     ':system_tests':
       - gem: 'puppet_litmus'
-        version: '< 1.0.0'
+        version:
+        - '~> 1.0'
         platforms:
           - ruby
           - x64_mingw
       - gem: 'serverspec'
         version: '~> 2.41'
-.gitlab-ci.yml:
-  delete: true
-.gitpod.Dockerfile:
-  unmanaged: true
-.gitpod.yml:
-  unmanaged: true
 provision.yaml:
   unmanaged: false
 spec/default_facts.yml:
@@ -598,33 +578,26 @@ spec/default_facts.yml:
   is_pe: false
   macaddress: "AA:AA:AA:AA:AA:AA"
 spec/spec_helper.rb:
-  coverage_report: false
+  coverage_report: true
   minimum_code_coverage_percentage: 0
   mock_with: ":rspec"
   strict_level: ":warning"
   strict_variables: true
 spec/spec_helper_acceptance.rb:
   unmanaged: false
-
+.github/workflows/ci.yml:
+  unmanaged: true
 .github/workflows/nightly.yml:
   unmanaged: true
-  slack-notifications:
-    channel: '#team-cat-bots'
-    name: 'GABot'
-.github/workflows/pr_test.yml:
-  unmanaged: true
-.github/workflows/auto_release.yml:
-  unmanaged: true
-.github/workflows/spec.yml:
-  unmanaged: true
-  checks: 'validate lint check rubocop'
 .github/workflows/release.yml:
   unmanaged: true
+.github/workflows/release_prep.yml:
+  unmanaged: true
+
 .github/workflows/pr-checks.yaml:
   unmanaged: false
   validate-REFERENCE.md: true
   validate-pdk-update: true
-
 release.rb:
   unmanaged: false
   validate-REFERENCE.md: true
@@ -633,4 +606,3 @@ test.sh:
   unmanaged: false
 util.sh:
   unmanaged: false
-

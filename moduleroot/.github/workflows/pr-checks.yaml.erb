@@ -7,17 +7,22 @@ on:
       - $default-branch
   pull_request:
 
+env:
+  VALIDATE_DISTRO: ubuntu-22.04
+  VALIDATE_DISTRO_NAME: jammy
+
 jobs:
   validate:
     name: Validate
-    runs-on: ubuntu-22.04
+    runs-on: {{ $env.VALIDATE_DISTRO }}
 
     steps:
     - uses: actions/checkout@v3
     - name: Install pdk
       run: |
-        wget https://apt.puppet.com/puppet-tools-release-jammy.deb
-        sudo dpkg -i puppet-tools-release-jammy.deb
+        wget https://apt.puppet.com/puppet-tools-release-{{ $env.VALIDATE_DISTRO_NAME }}.deb
+        sudo dpkg -i puppet-tools-release-{{ $env.VALIDATE_DISTRO_NAME }}.deb
+        rm puppet-tools-release-{{ $env.VALIDATE_DISTRO_NAME }}.deb
         sudo apt-get update
         sudo apt-get install -y pdk
     - run: pdk validate

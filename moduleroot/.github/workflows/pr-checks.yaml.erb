@@ -22,14 +22,18 @@ jobs:
         sudo apt-get install -y pdk
     - run: pdk validate
 <% if @configs['validate-REFERENCE.md'] %>
-    - run: pdk bundle exec puppet strings generate --format markdown
     - name: Confirm REFERENCE.md is up-to-date
-      run: git diff --color --exit-code
+      run: |
+        pdk bundle exec puppet strings generate --format markdown
+        git add .
+        git diff --staged --color --exit-code
 <% end -%>
 <% if @configs['validate-pdk-update'] %>
-    - run: pdk update --force
     - name: Confirm PDK update does nothing
-      run: git diff --color --exit-code
+      run: |
+        pdk update --force
+        git add .
+        git diff --staged  --color --exit-code
 <% end -%>
 
   test-unit:

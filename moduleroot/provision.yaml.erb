@@ -8,4 +8,5 @@ docker:
   provisioner: docker
   images:
     - litmusimage/centos:7
-    - litmusimage/ubuntu:22.04
+    # On some projects (?) I get a read-only filesystem error on init:
+    # - litmusimage/ubuntu:22.04

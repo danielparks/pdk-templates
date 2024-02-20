@@ -63,7 +63,7 @@ jobs:
             puppet: 7
           - os: <%= @configs['main-platform'] %>
             puppet: 8
-<%- @configs['additional-platforms'].each do |platform| %>
+<%- @configs['additional-platforms'].each do |platform| -%>
           - os: <%= platform %>
             puppet: 8
 <%- end -%>

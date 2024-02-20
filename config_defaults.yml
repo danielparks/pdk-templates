@@ -610,9 +610,7 @@ spec/spec_helper_acceptance.rb:
   validate-REFERENCE.md: true
   validate-pdk-update: true
   main-platform: ubuntu-latest
-  additional-platforms:
-    - macos-11
-    - macos-14
+  additional-platforms: []
 release.rb:
   unmanaged: false
   validate-REFERENCE.md: true

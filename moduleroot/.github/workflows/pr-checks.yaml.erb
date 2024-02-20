@@ -57,12 +57,16 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: <%= @configs['main-platform'] %>
             puppet: 6
-          - os: ubuntu-latest
+          - os: <%= @configs['main-platform'] %>
             puppet: 7
-          - os: ubuntu-latest
+          - os: <%= @configs['main-platform'] %>
             puppet: 8
+<%- @configs['additional-platforms'].each do |platform| %>
+          - os: <%= platform %>
+            puppet: 8
+<% end -%>
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -70,13 +74,25 @@ jobs:
     - name: Install Puppet
       run: |
         set -ex
-        distro=$(lsb_release -cs)
-        deb_name="puppet${{ matrix.puppet }}-release-${distro}.deb"
-        curl -sSO  "https://apt.puppet.com/${deb_name}"
-        sudo dpkg -i "$deb_name"
-        rm "$deb_name"
-        sudo apt-get update -qq
-        sudo apt-get install -qy puppet-agent pdk
+        case ${{ matrix.os }} in
+          macos*)
+            brew install --cask puppetlabs/puppet/puppet-agent-${{ matrix.puppet }}
+            brew install --cask puppetlabs/puppet/pdk
+          ;;
+          ubuntu*)
+            distro=$(lsb_release -cs)
+            deb_name="puppet${{ matrix.puppet }}-release-${distro}.deb"
+            curl -sSO  "https://apt.puppet.com/${deb_name}"
+            sudo dpkg -i "$deb_name"
+            rm "$deb_name"
+            sudo apt-get update -qq
+            sudo apt-get install -qy puppet-agent pdk
+          ;;
+          *)
+            echo ::error::Unsupported platform
+            exit 1
+          ;;
+        esac
     - name: Install PDK dependencies
       run: sudo -E /opt/puppetlabs/pdk/bin/pdk bundle install
     - name: Run acceptance tests

@@ -33,6 +33,7 @@ common:
     - '/spec/fixtures/modules/*'
     - '/tmp/'
     - '/vendor/'
+    - '/.vendor/'
     - '/convert_report.txt'
     - '/update_report.txt'
     - '.DS_Store'
@@ -539,15 +540,15 @@ Gemfile:
         version: '~> 1.4.0'
         condition: "Gem::Requirement.create(['>= 2.7.0', '< 3.0.0']).satisfied_by?(Gem::Version.new(RUBY_VERSION.dup))"
       - gem: deep_merge
-        version: '~> 1.0'
+        version: '~> 1.2.2'
       - gem: 'voxpupuli-puppet-lint-plugins'
         version: '~> 5.0'
       - gem: 'facterdb'
-        version: '~> 1.26'
+        version: '~> 2.1'
       - gem: 'metadata-json-lint'
         version: '~> 4.0'
       - gem: 'rspec-puppet-facts'
-        version: '~> 3.0'
+        version: '~> 4.0'
       - gem: 'dependency_checker'
         version: '~> 1.0.0'
       - gem: 'parallel_tests'
@@ -579,7 +580,7 @@ Gemfile:
       - gem: 'puppet-strings'
         version: '~> 4.0'
       - gem: 'puppetlabs_spec_helper'
-        version: '~> 7.3'
+        version: '~> 7.0'
     ':system_tests':
       - gem: 'puppet_litmus'
         version:

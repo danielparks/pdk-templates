@@ -641,7 +641,6 @@ spec/spec_helper_acceptance.rb:
   unmanaged: false
   validate-REFERENCE.md: true
   validate-pdk-update: true
-  puppet6-platform: ubuntu-22.04
   main-platform: ubuntu-latest
   additional-platforms: []
 release.rb:

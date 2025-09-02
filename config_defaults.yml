@@ -589,6 +589,12 @@ Gemfile:
           - mswin
           - mingw
           - x64_mingw
+      - gem: 'bigdecimal'
+        version: '< 3.2.2'
+        platforms:
+          - mswin
+          - mingw
+          - x64_mingw
     ':development, :release_prep':
       - gem: 'puppet-strings'
         version: '~> 4.0'
@@ -599,10 +605,18 @@ Gemfile:
     ':system_tests':
       - gem: 'puppet_litmus'
         version:
+        - '~> 2.0'
+        platforms:
+          - ruby
+          - x64_mingw
+        condition: "!ENV['PUPPET_FORGE_TOKEN'].to_s.empty?"
+      - gem: 'puppet_litmus'
+        version:
         - '~> 1.0'
         platforms:
           - ruby
           - x64_mingw
+        condition: "ENV['PUPPET_FORGE_TOKEN'].to_s.empty?"
       - gem: 'CFPropertyList'
         version:
         - '< 3.0.7'

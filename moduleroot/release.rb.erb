@@ -3,6 +3,7 @@
 # rubocop:disable Style/WhileUntilModifier
 
 require 'getoptlong'
+require 'io/console'
 require 'json'
 require 'open3'
 require 'rdoc'
@@ -77,7 +78,9 @@ end
 version, summary = ARGV
 
 if forge_token.nil? || forge_token.empty?
-  usage_error 'Must specify TOKEN (use $PDK_FORGE_TOKEN environment variable)'
+  STDERR.print 'Enter PDK Forge token: '
+  forge_token = STDIN.noecho(&:gets).chomp
+  STDERR.puts
 end
 
 # Modifies CHANGELOG.md for release and extracts changes
@@ -95,7 +98,7 @@ def extract_changes_for_release!(changelog, version)
     end
 
     # Should have found "## main branch". Replace it with "## Release..."
-    line.replace("## Release #{version}\n")
+    line.replace("## Release #{version} (#{Time.now.strftime('%Y-%m-%d')})\n")
 
     line = enumerator.next
     while line.match?(%r{\A\s*\z})

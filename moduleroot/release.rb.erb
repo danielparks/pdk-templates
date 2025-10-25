@@ -83,6 +83,11 @@ if forge_token.nil? || forge_token.empty?
   STDERR.puts
 end
 
+if forge_token.length != 64
+  STDERR.puts 'Expected PDK Forge token to be 64 characters long, got '\
+    "#{forge_token.length}."
+end
+
 # Modifies CHANGELOG.md for release and extracts changes
 #
 # changelog should be an array of lines

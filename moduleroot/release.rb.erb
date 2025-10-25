@@ -86,6 +86,7 @@ end
 if forge_token.length != 64
   STDERR.puts 'Expected PDK Forge token to be 64 characters long, got '\
     "#{forge_token.length}."
+  exit 1
 end
 
 # Modifies CHANGELOG.md for release and extracts changes
@@ -269,7 +270,7 @@ metadata = JSON.parse(File.read('metadata.json'))
 
 if just_forge_update
   update_for_forge(metadata)
-  exit(0)
+  exit 0
 end
 
 run('git', 'add', 'CHANGELOG.md', 'metadata.json')

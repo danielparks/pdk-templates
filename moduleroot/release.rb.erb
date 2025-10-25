@@ -303,7 +303,7 @@ run('git', 'commit', '-m', 'Add “## main branch” header back to CHANGELOG.md
   dry_run: dry_run)
 
 # Push release to GitHub
-run('git', 'push', '--tags', 'origin', 'main', dry_run: dry_run)
+run('git', 'push', '--tags', 'origin', 'HEAD', dry_run: dry_run)
 
 unwrap_markdown!(release_notes)
 

@@ -216,14 +216,27 @@ def run_capture(command, *args, dry_run: false)
   output
 end
 
-def confirm_no_changes
-  untracked = run_capture('git', 'ls-files', '--exclude-standard', '--other')
+def get_untracked
+  run_capture('git', 'ls-files', '--exclude-standard', '--other')
+end
+
+def get_diff(include_staged: false)
+  extra = include_staged ? ['HEAD'] : []
+  run_capture('git', 'diff', '--color', *extra)
+end
+
+def confirm_no_changes(ignore_staged: false)
+  untracked = get_untracked
   unless untracked == ''
     puts untracked
     raise 'Found untracked files.'
   end
 
-  run('git', 'diff', '--color', '--exit-code')
+  diff = get_diff(include_staged: !ignore_staged)
+  unless diff == ''
+    puts diff
+    raise 'Found uncommitted changes.'
+  end
 end
 
 # There are broadly three passes to this.
@@ -264,12 +277,12 @@ run('git', 'add', 'CHANGELOG.md', 'metadata.json')
 puts 'Confirming that REFERENCE.md is up-to-date'
 run('pdk', 'bundle', 'exec', 'puppet', 'strings', 'generate',
   '--format', 'markdown')
-confirm_no_changes
+confirm_no_changes(ignore_staged: true)
 <% end -%>
 <% if @configs['validate-pdk-update'] %>
 puts 'Confirming that pdk update does nothing'
 run('pdk', 'update', '--force')
-confirm_no_changes
+confirm_no_changes(ignore_staged: true)
 <% end -%>
 
 run('pdk', 'validate')
@@ -282,9 +295,14 @@ if run_acceptance && File.exist?('spec/acceptance')
   run('./test.sh', 'init', 'run', 'destroy')
 end
 
-run('git', 'commit', '-m', "Release #{version}: #{summary.chomp('.')}.",
-  dry_run: dry_run)
-run('git', 'tag', "v#{version}", '-sm', <<~MSG.chomp, dry_run: dry_run)
+if get_diff(include_staged: true) == ''
+  puts 'Nothing to commit; skipping release commit'
+else
+  run('git', 'commit', '-m', "Release #{version}: #{summary.chomp('.')}.",
+    dry_run: dry_run)
+end
+
+run('git', 'tag', "v#{version}", '-fsm', <<~MSG.chomp, dry_run: dry_run)
   #{version}: #{summary}
 
   #{release_notes}
@@ -293,6 +311,7 @@ MSG
 update_for_forge(metadata)
 
 run('pdk', 'build', '--force')
+ENV['PDK_FORGE_TOKEN'] = forge_token
 run('pdk', 'release', 'publish', dry_run: dry_run)
 
 # Reset Forge-specific changes
